@@ -226,7 +226,7 @@
     <div id="loading">
         <div class="spinner"></div>
         <div class="loading-text">Analyzing Usage Data...</div>
-        <div class="loading-sub">Running ccusage CLI</div>
+        <div class="loading-sub">This may take a few minutes on first load</div>
     </div>
 
     <div class="container" id="dashboard" style="display: none; opacity: 0; transition: opacity 0.5s;">
@@ -344,8 +344,8 @@
             dashboard.style.opacity = '0'; // Fade out dashboard while reloading
             
             try {
-                statusText.textContent = force ? "Refreshing Data..." : "Loading Cached Data...";
-                subText.textContent = force ? "Ignoring cache, fetching latest logs..." : "Checking for recent updates...";
+                statusText.textContent = force ? "Refreshing Data..." : "Analyzing Usage Data...";
+                subText.textContent = force ? "This may take a few minutes..." : "This may take a few minutes on first load";
                 
                 const query = force ? '?force=true' : '';
                 
@@ -429,7 +429,9 @@
             const ctx = document.getElementById('trendChart').getContext('2d');
             if (trendChart) trendChart.destroy();
 
-            const dataSrc = currentView === 'daily' ? dailyData.slice(-30) : monthlyData;
+            const dataSrc = currentView === 'daily'
+                ? [...dailyData].sort((a, b) => a.date.localeCompare(b.date)).slice(-30)
+                : [...monthlyData].sort((a, b) => a.month.localeCompare(b.month));
             const labels = dataSrc.map(d => currentView === 'daily' ? d.date : d.month);
             
             let datasetData;
@@ -480,7 +482,7 @@
                                         Current: <b style="color:#0071e3">${getLevelName(lastVal)}</b> <span style="color:#86868b; margin-left: 5px;">(${lastVal.toFixed(0)}M)</span>
                                     </div>
                                     <div style="font-size: 14px; color: #1d1d1f;">
-                                        🚀 Pace: <b style="color:#5856d6">${getLevelName(projection)}</b> <span style="color:#86868b">(${projection.toFixed(0)}M projected)</span>
+                                        Pace: <b style="color:#5856d6">${getLevelName(projection)}</b> <span style="color:#86868b">(${projection.toFixed(0)}M)</span>
                                     </div>
                                 </div>
                             `;
@@ -583,7 +585,7 @@
                                 stack: 'stack1'
                             },
                             {
-                                label: 'Projected',
+                                label: 'Pace',
                                 data: projectionData,
                                 backgroundColor: 'rgba(52, 199, 89, 0.1)', // Very light green
                                 borderColor: '#34c759',
