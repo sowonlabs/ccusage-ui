@@ -10,9 +10,17 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
-  "author": "",
+  "author": "Doha Park",
   "license": "MIT",
   "description": "Web UI for Claude Code usage statistics",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/sowonlabs/ccusage-ui.git"
+  },
+  "homepage": "https://github.com/sowonlabs/ccusage-ui",
+  "bugs": {
+    "url": "https://github.com/sowonlabs/ccusage-ui/issues"
+  },
   "dependencies": {
     "ccusage": "^18.0.0"
   }
