@@ -761,7 +761,13 @@
             };
             
             const level = getLevelName(projected);
+            const levelId = projected >= 100 ? 'legendary' :
+                          projected >= 50 ? 'mega' :
+                          projected >= 10 ? 'power' :
+                          projected >= 1 ? 'pro' : 'starter';
             
+            const shareUrl = `https://sowonlabs.github.io/ccusage-ui/share/${levelId}.html`;
+
             const text = `I'm a ${level} AI user.
 My monthly usage pace is ${projected.toFixed(1)}M tokens.
 
@@ -771,7 +777,7 @@ npx ccusage-ui
 Do you use Claude Code like an employee?
 Manage your team with @CrewX
 
-#ClaudeCode #CrewX #SowonLabs`;
+#ClaudeCode #CrewX #SowonLabs ${shareUrl}`;
             
             const url = `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}`;
             window.open(url, '_blank');
