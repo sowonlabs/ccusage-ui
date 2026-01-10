@@ -1,0 +1,19 @@
+{
+  "name": "@sowonlabs/ccusage-ui",
+  "version": "0.1.0",
+  "main": "server.js",
+  "bin": {
+    "ccusage-ui": "server.js"
+  },
+  "scripts": {
+    "start": "node server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "description": "Web UI for Claude Code usage statistics",
+  "dependencies": {
+    "ccusage": "^18.0.0"
+  }
+}
