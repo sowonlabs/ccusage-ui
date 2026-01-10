@@ -2,7 +2,9 @@
 
 Web UI dashboard for [Claude Code](https://claude.ai/code) usage statistics.
 
-![screenshot](https://img.shields.io/badge/port-8150-blue)
+[![screenshot](screenshot.png)](screenshot.png)
+
+![port](https://img.shields.io/badge/port-8150-blue)
 ![npm](https://img.shields.io/npm/v/ccusage-ui)
 
 ## Quick Start
