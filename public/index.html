@@ -220,7 +220,25 @@
         th { color: var(--text-secondary); font-weight: 600; }
         tr:last-child td { border-bottom: none; }
         .cost-positive { color: #ff3b30; font-weight: 600; }
-    </style>
+    
+        .share-btn {
+            background: #000;
+            color: #fff;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 16px;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: transform 0.2s;
+            margin-top: 8px;
+            text-decoration: none;
+        }
+        .share-btn:hover { transform: scale(1.05); background: #333; }
+</style>
 </head>
 <body>
     <div id="loading">
@@ -262,9 +280,15 @@
                     <div>
                         <div style="display: flex; align-items: center; gap: 8px;">
                             <h2 style="margin:0; font-size:18px;">Usage Trend</h2>
-                            <span class="tier-info" data-tippy-content="🌱 Starter: ~10M<br>⚡ Pro: ~100M (Active User)<br>🔴 Power: ~500M (Tool User)<br>🟣 Mega: ~1B (Agent Operator)<br>🟣 Legendary: 1B+ (Hive Mind)">?</span>
+                            <span class="tier-info" data-tippy-content="🌱 Starter: <1M<br>⚡ Pro: 1M+ (Daily User)<br>🔴 Power: 10M+ (Haiku 4.5 Class)<br>🟣 Mega: 50M+ (Sonnet 4.5 Class)<br>🟣 Legendary: 100M+ (Opus 4.5 Class)">?</span>
                         </div>
+                        
                         <div id="userLevel" style="font-size:12px; color:#0071e3; margin-top:4px; font-weight:500;"></div>
+                        <button onclick="shareStats()" class="share-btn">
+                            <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+                            Share Stats
+                        </button>
+
                     </div>
                     <div class="tabs">
                         <button class="tab active" onclick="switchMetric('tokens')">Tokens</button>
@@ -306,6 +330,12 @@
         </div>
 
         <footer style="text-align: center; margin-top: 40px; padding: 30px 20px; color: var(--text-secondary); font-size: 13px; border-top: 1px solid #e5e5e7;">
+            <div style="margin-bottom: 24px; font-size: 15px;">
+                Do you use Claude Code like an employee? <br> 
+                <a href="https://crewx.dev" target="_blank" style="color: #0071e3; text-decoration: none; font-weight: 600;">
+                    Manage your whole AI team with CrewX →
+                </a>
+            </div>
             <div style="display: flex; justify-content: center; align-items: center; gap: 20px; margin-bottom: 16px;">
                 <a href="https://github.com/sowonlabs/ccusage-ui" target="_blank" title="GitHub" style="color: var(--text-secondary); transition: color 0.2s;">
                     <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
@@ -313,7 +343,7 @@
                 <a href="https://x.com/dohapark81" target="_blank" title="X (Twitter)" style="color: var(--text-secondary); transition: color 0.2s;">
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
                 </a>
-                <a href="https://www.threads.com/@dohapark81" target="_blank" title="Threads" style="color: var(--text-secondary); transition: color 0.2s;">
+                <a href="https://www.threads.net/@dohapark81" target="_blank" title="Threads" style="color: var(--text-secondary); transition: color 0.2s;">
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12.186 24h-.007c-3.581-.024-6.334-1.205-8.184-3.509C2.35 18.44 1.5 15.586 1.472 12.01v-.017c.03-3.579.879-6.43 2.525-8.482C5.845 1.205 8.6.024 12.18 0h.014c2.746.02 5.043.725 6.826 2.098 1.677 1.29 2.858 3.13 3.509 5.467l-2.04.569c-1.104-3.96-3.898-5.984-8.304-6.015-2.91.022-5.11.936-6.54 2.717C4.307 6.504 3.616 8.914 3.589 12c.027 3.086.718 5.496 2.057 7.164 1.43 1.783 3.631 2.698 6.54 2.717 2.623-.02 4.358-.631 5.8-2.045 1.647-1.613 1.618-3.593 1.09-4.798-.31-.71-.873-1.3-1.634-1.75-.192 1.352-.622 2.446-1.284 3.272-.886 1.102-2.14 1.704-3.73 1.79-1.202.065-2.361-.218-3.259-.801-1.063-.689-1.685-1.74-1.752-2.96-.065-1.17.408-2.274 1.33-3.109.858-.775 2.071-1.263 3.51-1.413 1.044-.11 2.016-.073 2.91.088-.07-.653-.274-1.176-.617-1.58-.457-.539-1.148-.823-2.002-.823h-.082c-.68.013-1.241.209-1.669.583l-1.394-1.54c.78-.705 1.793-1.082 3.02-1.126h.11c1.515 0 2.725.503 3.6 1.494.78.885 1.207 2.084 1.27 3.56.455.155.874.337 1.255.548 1.253.695 2.17 1.678 2.647 2.843.716 1.748.682 4.494-1.433 6.564-1.905 1.865-4.287 2.727-7.492 2.747zm-1.25-9.01c-1.29.137-2.24.49-2.75.962-.41.382-.594.817-.548 1.298.063 1.04 1.09 1.696 2.61 1.613 1.076-.058 1.907-.453 2.47-1.173.496-.634.783-1.503.855-2.592-.846-.153-1.735-.194-2.637-.108z"/></svg>
                 </a>
                 <a href="https://www.linkedin.com/in/dohapark81/" target="_blank" title="LinkedIn" style="color: var(--text-secondary); transition: color 0.2s;">
@@ -463,10 +493,10 @@
                         let displayHTML = "";
                         
                         const getLevelName = (val) => {
-                            if (val >= 1000) return "🟣 Legendary (Hive Mind)";
-                            if (val >= 500) return "🟣 Mega (Agent Operator)";
-                            if (val >= 100) return "🔴 Power (Tool User)";
-                            if (val >= 10) return "⚡ Pro (Assisted)";
+                            if (val >= 100) return "🟣 Legendary (Opus 4.5 Class)";
+                            if (val >= 50) return "🟣 Mega (Sonnet 4.5 Class)";
+                            if (val >= 10) return "🔴 Power (Haiku 4.5 Class)";
+                            if (val >= 1) return "⚡ Pro (Daily User)";
                             return "🌱 Starter";
                         };
 
@@ -479,10 +509,10 @@
                             displayHTML = `
                                 <div style="display:flex; flex-direction:column; gap:4px; border-left: 3px solid #0071e3; padding-left: 10px;">
                                     <div style="font-size: 14px; color: #1d1d1f; display: flex; align-items: center;">
-                                        Current: <b style="color:#0071e3">${getLevelName(lastVal)}</b> <span style="color:#86868b; margin-left: 5px;">(${lastVal.toFixed(0)}M)</span>
+                                        Current: <b style="color:#0071e3">${getLevelName(lastVal)}</b> <span style="color:#86868b; margin-left: 5px;">(${lastVal.toFixed(1)}M)</span>
                                     </div>
                                     <div style="font-size: 14px; color: #1d1d1f;">
-                                        Pace: <b style="color:#5856d6">${getLevelName(projection)}</b> <span style="color:#86868b">(${projection.toFixed(0)}M)</span>
+                                        Pace: <b style="color:#5856d6">${getLevelName(projection)}</b> <span style="color:#86868b">(${projection.toFixed(1)}M)</span>
                                     </div>
                                 </div>
                             `;
@@ -529,19 +559,19 @@
                             };
 
                             if (currentView === 'monthly') {
-                                drawLine(100, '#ff3b30', 'Power (100M)');
-                                drawLine(500, '#af52de', 'Mega (500M)');
-                                drawLine(1000, '#5856d6', 'Legendary (1B)');
+                                drawLine(10, '#ff3b30', 'Power (10M)');
+                                drawLine(50, '#af52de', 'Mega (50M)');
+                                drawLine(100, '#5856d6', 'Legendary (100M)');
                             } else {
                                 // Daily Benchmarks
                                 
                                 // 1. Tier Thresholds (Lighter, background context)
-                                // Legendary (1B/mo -> ~33.3M/day)
-                                drawLine(33.3, 'rgba(88, 86, 214, 0.4)', 'Legendary (33M)');
-                                // Mega (500M/mo -> ~16.6M/day)
-                                drawLine(16.6, 'rgba(175, 82, 222, 0.4)', 'Mega (16M)');
-                                // Power (100M/mo -> ~3.3M/day)
-                                drawLine(3.3, 'rgba(255, 59, 48, 0.4)', 'Power (3.3M)');
+                                // Legendary (100M/mo -> ~3.3M/day)
+                                drawLine(3.3, 'rgba(88, 86, 214, 0.4)', 'Legendary (3.3M)');
+                                // Mega (50M/mo -> ~1.6M/day)
+                                drawLine(1.6, 'rgba(175, 82, 222, 0.4)', 'Mega (1.6M)');
+                                // Power (10M/mo -> ~0.33M/day)
+                                drawLine(0.33, 'rgba(255, 59, 48, 0.4)', 'Power (0.33M)');
 
                                 // 2. User Average (Stronger, personal metric)
                                 const sum = datasetData.reduce((a, b) => a + b, 0);
@@ -696,6 +726,55 @@
                 `;
                 tbody.appendChild(tr);
             });
+        }
+
+        
+        function shareStats() {
+            const now = new Date();
+            const currentMonthStr = now.toISOString().slice(0, 7);
+            const lastData = monthlyData.find(m => m.month === currentMonthStr);
+            // Fallback if no monthly data yet
+            let lastVal = 0;
+            if (lastData) {
+                lastVal = (lastData.totalTokens || (lastData.inputTokens + lastData.outputTokens)) / 1000000;
+            } else if (dailyData.length > 0) {
+                 // Try to sum daily data for this month if monthly api fails or is empty
+                 const thisMonthDaily = dailyData.filter(d => d.date.startsWith(currentMonthStr));
+                 const sumTokens = thisMonthDaily.reduce((acc, d) => acc + (d.totalTokens || (d.inputTokens + d.outputTokens)), 0);
+                 lastVal = sumTokens / 1000000;
+            }
+
+            // Simple Projection Logic for 'Pace' if current month
+            const day = now.getDate();
+            const daysInMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0).getDate();
+            let projected = lastVal;
+            if (day > 0) {
+                projected = (lastVal / day) * daysInMonth;
+            }
+            
+            const getLevelName = (val) => {
+                if (val >= 100) return "Legendary (Opus 4.5 Class)";
+                if (val >= 50) return "Mega (Sonnet 4.5 Class)";
+                if (val >= 10) return "Power (Haiku 4.5 Class)";
+                if (val >= 1) return "Pro (Daily User)";
+                return "Starter";
+            };
+            
+            const level = getLevelName(projected);
+            
+            const text = `I'm a ${level} AI user.
+My monthly usage pace is ${projected.toFixed(1)}M tokens.
+
+Check yours:
+npx ccusage-ui
+
+Do you use Claude Code like an employee?
+Manage your team with @CrewX
+
+#ClaudeCode #CrewX #SowonLabs`;
+            
+            const url = `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}`;
+            window.open(url, '_blank');
         }
 
         // Initialize tooltips
