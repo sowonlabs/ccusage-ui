@@ -800,8 +800,13 @@
             
             const shareUrl = `https://sowonlabs.github.io/ccusage-ui/share/${levelId}.html`;
 
+            // Format tokens: use B for >= 1000M, otherwise M
+            const formattedTokens = projected >= 1000
+                ? `${(projected / 1000).toFixed(1)}B`
+                : `${projected.toFixed(1)}M`;
+
             const text = `I'm a ${level} tier Claude Code user.
-My monthly usage pace is ${projected.toFixed(1)}M tokens.
+My monthly usage pace is ${formattedTokens} tokens.
 
 Check yours:
 npx ccusage-ui
