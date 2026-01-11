@@ -609,24 +609,29 @@
             const now = new Date();
             const currentMonthStr = now.toISOString().slice(0, 7);
 
-            // Logic for Monthly Token Projection
-            if (currentMetric === 'tokens' && currentView === 'monthly') {
+            // Logic for Monthly Projection (tokens and cost)
+            if (currentView === 'monthly') {
                 const lastIdx = dataSrc.length - 1;
                 const lastData = dataSrc[lastIdx];
-                
+
                 // Only if the last bar is the current month
                 if (lastData && lastData.month === currentMonthStr) {
                     const day = now.getDate();
                     const daysInMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0).getDate();
-                    
+
                     if (day > 0 && day < daysInMonth) {
                         const currentVal = datasetData[lastIdx];
                         const projectedTotal = (currentVal / day) * daysInMonth;
                         const remaining = projectedTotal - currentVal;
-                        
+
                         // Create Projection Dataset (Zeros for past months, value for current)
                         const projectionData = new Array(datasetData.length).fill(0);
                         projectionData[lastIdx] = remaining;
+
+                        // Pace color matches metric color
+                        const paceColor = currentMetric === 'cost'
+                            ? { bg: 'rgba(0, 113, 227, 0.1)', border: '#0071e3' }
+                            : { bg: 'rgba(52, 199, 89, 0.1)', border: '#34c759' };
 
                         datasets = [
                             {
@@ -639,8 +644,8 @@
                             {
                                 label: 'Pace',
                                 data: projectionData,
-                                backgroundColor: 'rgba(52, 199, 89, 0.1)', // Very light green
-                                borderColor: '#34c759',
+                                backgroundColor: paceColor.bg,
+                                borderColor: paceColor.border,
                                 borderWidth: 2,
                                 borderDash: [5, 5], // Dotted line style
                                 borderRadius: 4,
