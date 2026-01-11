@@ -564,23 +564,19 @@
 
                         if (currentMetric === 'tokens') {
                             if (currentView === 'monthly') {
-                                drawLine(30, '#ffd700', 'Gold (30M)');
-                                drawLine(100, '#00e5a0', 'Emerald (100M)');
-                                drawLine(300, '#00bcd4', 'Diamond (300M)');
-                                drawLine(500, '#e74c3c', 'Master (500M)');
-                                drawLine(1000, '#ff9800', 'Grandmaster (1B)');
+                                // Higher tiers first (top of legend)
                                 drawLine(1500, '#9b59b6', 'Challenger (1.5B)');
+                                drawLine(1000, '#ff9800', 'Grandmaster (1B)');
+                                drawLine(500, '#e74c3c', 'Master (500M)');
+                                drawLine(300, '#00bcd4', 'Diamond (300M)');
+                                drawLine(100, '#00e5a0', 'Emerald (100M)');
+                                drawLine(30, '#ffd700', 'Gold (30M)');
                             } else {
-                                // Daily Benchmarks
-                                // Challenger (1.5B/mo -> ~50M/day)
+                                // Daily Benchmarks - higher tiers first
                                 drawLine(50, 'rgba(155, 89, 182, 0.5)', 'Challenger (50M)');
-                                // Grandmaster (1B/mo -> ~33M/day)
                                 drawLine(33, 'rgba(255, 152, 0, 0.5)', 'Grandmaster (33M)');
-                                // Master (500M/mo -> ~16.7M/day)
                                 drawLine(16.7, 'rgba(231, 76, 60, 0.5)', 'Master (16.7M)');
-                                // Diamond (300M/mo -> ~10M/day)
                                 drawLine(10, 'rgba(0, 188, 212, 0.5)', 'Diamond (10M)');
-                                // Gold (30M/mo -> ~1M/day)
                                 drawLine(1, 'rgba(255, 215, 0, 0.5)', 'Gold (1M)');
 
                                 // User Average
@@ -589,16 +585,16 @@
                                 drawLine(avg, '#0071e3', `My Avg (${avg.toFixed(1)}M)`);
                             }
                         } else if (currentMetric === 'cost') {
-                            // Subscription plan benchmarks
+                            // Subscription plan benchmarks - higher tiers first
                             if (currentView === 'monthly') {
-                                drawLine(20, '#34c759', '$20 (Free tier value)');
-                                drawLine(100, '#ff9500', '$100 Pro');
                                 drawLine(200, '#ff3b30', '$200 Max');
+                                drawLine(100, '#ff9500', '$100 Pro');
+                                drawLine(20, '#34c759', '$20 (Free tier value)');
                             } else {
-                                // Daily cost benchmarks
-                                drawLine(0.67, 'rgba(52, 199, 89, 0.5)', '$20/mo (~$0.67/day)');
-                                drawLine(3.3, 'rgba(255, 149, 0, 0.5)', '$100 Pro (~$3.3/day)');
+                                // Daily cost benchmarks - higher tiers first
                                 drawLine(6.7, 'rgba(255, 59, 48, 0.5)', '$200 Max (~$6.7/day)');
+                                drawLine(3.3, 'rgba(255, 149, 0, 0.5)', '$100 Pro (~$3.3/day)');
+                                drawLine(0.67, 'rgba(52, 199, 89, 0.5)', '$20/mo (~$0.67/day)');
                             }
                         }
                     }
