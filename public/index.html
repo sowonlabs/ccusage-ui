@@ -280,7 +280,7 @@
                     <div>
                         <div style="display: flex; align-items: center; gap: 8px;">
                             <h2 style="margin:0; font-size:18px;">Usage Trend</h2>
-                            <span class="tier-info" data-tippy-content="⬛ Iron: <1M<br>🟫 Bronze: 1M+<br>⬜ Silver: 5M+<br>🟡 Gold: 10M+<br>💚 Platinum: 30M+<br>💎 Emerald: 50M+<br>💠 Diamond: 100M+<br>🔴 Master: 300M+<br>🟠 Grandmaster: 500M+<br>🏆 Challenger: 1B+">?</span>
+                            <span class="tier-info" data-tippy-content="⬛ Iron: <5M<br>🟫 Bronze: 5M+<br>⬜ Silver: 10M+<br>🟡 Gold: 30M+<br>💚 Platinum: 50M+<br>💎 Emerald: 100M+<br>💠 Diamond: 300M+<br>🔴 Master: 500M+<br>🟠 Grandmaster: 1B+<br>🏆 Challenger: 1.5B+ (세계 1위급)">?</span>
                         </div>
                         
                         <div id="userLevel" style="font-size:12px; color:#0071e3; margin-top:4px; font-weight:500;"></div>
@@ -493,15 +493,15 @@
                         let displayHTML = "";
                         
                         const getLevelName = (val) => {
-                            if (val >= 1000) return "🏆 Challenger";
-                            if (val >= 500) return "🟠 Grandmaster";
-                            if (val >= 300) return "🔴 Master";
-                            if (val >= 100) return "💠 Diamond";
-                            if (val >= 50) return "💎 Emerald";
-                            if (val >= 30) return "💚 Platinum";
-                            if (val >= 10) return "🟡 Gold";
-                            if (val >= 5) return "⬜ Silver";
-                            if (val >= 1) return "🟫 Bronze";
+                            if (val >= 1500) return "🏆 Challenger";
+                            if (val >= 1000) return "🟠 Grandmaster";
+                            if (val >= 500) return "🔴 Master";
+                            if (val >= 300) return "💠 Diamond";
+                            if (val >= 100) return "💎 Emerald";
+                            if (val >= 50) return "💚 Platinum";
+                            if (val >= 30) return "🟡 Gold";
+                            if (val >= 10) return "⬜ Silver";
+                            if (val >= 5) return "🟫 Bronze";
                             return "⬛ Iron";
                         };
 
@@ -564,21 +564,24 @@
 
                         if (currentMetric === 'tokens') {
                             if (currentView === 'monthly') {
-                                drawLine(10, '#ffd700', 'Gold (10M)');
-                                drawLine(100, '#00bcd4', 'Diamond (100M)');
-                                drawLine(300, '#e74c3c', 'Master (300M)');
-                                drawLine(500, '#ff9800', 'Grandmaster (500M)');
-                                drawLine(1000, '#9b59b6', 'Challenger (1B)');
+                                drawLine(30, '#ffd700', 'Gold (30M)');
+                                drawLine(100, '#00e5a0', 'Emerald (100M)');
+                                drawLine(300, '#00bcd4', 'Diamond (300M)');
+                                drawLine(500, '#e74c3c', 'Master (500M)');
+                                drawLine(1000, '#ff9800', 'Grandmaster (1B)');
+                                drawLine(1500, '#9b59b6', 'Challenger (1.5B)');
                             } else {
                                 // Daily Benchmarks
-                                // Challenger (1B/mo -> ~33M/day)
-                                drawLine(33, 'rgba(155, 89, 182, 0.5)', 'Challenger (33M)');
-                                // Master (300M/mo -> ~10M/day)
-                                drawLine(10, 'rgba(231, 76, 60, 0.5)', 'Master (10M)');
-                                // Diamond (100M/mo -> ~3.3M/day)
-                                drawLine(3.3, 'rgba(0, 188, 212, 0.5)', 'Diamond (3.3M)');
-                                // Gold (10M/mo -> ~0.33M/day)
-                                drawLine(0.33, 'rgba(255, 215, 0, 0.5)', 'Gold (0.33M)');
+                                // Challenger (1.5B/mo -> ~50M/day)
+                                drawLine(50, 'rgba(155, 89, 182, 0.5)', 'Challenger (50M)');
+                                // Grandmaster (1B/mo -> ~33M/day)
+                                drawLine(33, 'rgba(255, 152, 0, 0.5)', 'Grandmaster (33M)');
+                                // Master (500M/mo -> ~16.7M/day)
+                                drawLine(16.7, 'rgba(231, 76, 60, 0.5)', 'Master (16.7M)');
+                                // Diamond (300M/mo -> ~10M/day)
+                                drawLine(10, 'rgba(0, 188, 212, 0.5)', 'Diamond (10M)');
+                                // Gold (30M/mo -> ~1M/day)
+                                drawLine(1, 'rgba(255, 215, 0, 0.5)', 'Gold (1M)');
 
                                 // User Average
                                 const sum = datasetData.reduce((a, b) => a + b, 0);
@@ -772,28 +775,28 @@
             }
             
             const getLevelName = (val) => {
-                if (val >= 1000) return "Challenger";
-                if (val >= 500) return "Grandmaster";
-                if (val >= 300) return "Master";
-                if (val >= 100) return "Diamond";
-                if (val >= 50) return "Emerald";
-                if (val >= 30) return "Platinum";
-                if (val >= 10) return "Gold";
-                if (val >= 5) return "Silver";
-                if (val >= 1) return "Bronze";
+                if (val >= 1500) return "Challenger";
+                if (val >= 1000) return "Grandmaster";
+                if (val >= 500) return "Master";
+                if (val >= 300) return "Diamond";
+                if (val >= 100) return "Emerald";
+                if (val >= 50) return "Platinum";
+                if (val >= 30) return "Gold";
+                if (val >= 10) return "Silver";
+                if (val >= 5) return "Bronze";
                 return "Iron";
             };
 
             const level = getLevelName(projected);
-            const levelId = projected >= 1000 ? 'challenger' :
-                          projected >= 500 ? 'grandmaster' :
-                          projected >= 300 ? 'master' :
-                          projected >= 100 ? 'diamond' :
-                          projected >= 50 ? 'emerald' :
-                          projected >= 30 ? 'platinum' :
-                          projected >= 10 ? 'gold' :
-                          projected >= 5 ? 'silver' :
-                          projected >= 1 ? 'bronze' : 'iron';
+            const levelId = projected >= 1500 ? 'challenger' :
+                          projected >= 1000 ? 'grandmaster' :
+                          projected >= 500 ? 'master' :
+                          projected >= 300 ? 'diamond' :
+                          projected >= 100 ? 'emerald' :
+                          projected >= 50 ? 'platinum' :
+                          projected >= 30 ? 'gold' :
+                          projected >= 10 ? 'silver' :
+                          projected >= 5 ? 'bronze' : 'iron';
             
             const shareUrl = `https://sowonlabs.github.io/ccusage-ui/share/${levelId}.html`;
 
