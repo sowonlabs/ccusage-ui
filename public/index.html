@@ -280,7 +280,7 @@
                     <div>
                         <div style="display: flex; align-items: center; gap: 8px;">
                             <h2 style="margin:0; font-size:18px;">Usage Trend</h2>
-                            <span class="tier-info" data-tippy-content="🌱 Starter: <1M<br>⚡ Pro: 1M+ (Daily User)<br>🔴 Power: 10M+ (Haiku 4.5 Class)<br>🟣 Mega: 50M+ (Sonnet 4.5 Class)<br>🟣 Legendary: 100M+ (Opus 4.5 Class)">?</span>
+                            <span class="tier-info" data-tippy-content="⬛ Iron: <1M<br>🟫 Bronze: 1M+<br>⬜ Silver: 5M+<br>🟡 Gold: 10M+<br>💚 Platinum: 30M+<br>💎 Emerald: 50M+<br>💠 Diamond: 100M+<br>🔴 Master: 300M+<br>🟠 Grandmaster: 500M+<br>🏆 Challenger: 1B+">?</span>
                         </div>
                         
                         <div id="userLevel" style="font-size:12px; color:#0071e3; margin-top:4px; font-weight:500;"></div>
@@ -493,11 +493,16 @@
                         let displayHTML = "";
                         
                         const getLevelName = (val) => {
-                            if (val >= 100) return "🟣 Legendary (Opus 4.5 Class)";
-                            if (val >= 50) return "🟣 Mega (Sonnet 4.5 Class)";
-                            if (val >= 10) return "🔴 Power (Haiku 4.5 Class)";
-                            if (val >= 1) return "⚡ Pro (Daily User)";
-                            return "🌱 Starter";
+                            if (val >= 1000) return "🏆 Challenger";
+                            if (val >= 500) return "🟠 Grandmaster";
+                            if (val >= 300) return "🔴 Master";
+                            if (val >= 100) return "💠 Diamond";
+                            if (val >= 50) return "💎 Emerald";
+                            if (val >= 30) return "💚 Platinum";
+                            if (val >= 10) return "🟡 Gold";
+                            if (val >= 5) return "⬜ Silver";
+                            if (val >= 1) return "🟫 Bronze";
+                            return "⬛ Iron";
                         };
 
                         // Only project if the last data point is the current month
@@ -534,49 +539,63 @@
                 {
                     id: 'custom_lines',
                     beforeDraw: (chart) => {
-                        if (currentMetric === 'tokens') {
-                            const ctx = chart.ctx;
-                            const yAxis = chart.scales.y;
-                            const xAxis = chart.scales.x;
-                            
-                            const drawLine = (value, color, text) => {
-                                const y = yAxis.getPixelForValue(value);
-                                if (y <= yAxis.bottom && y >= yAxis.top) {
-                                    ctx.save();
-                                    ctx.beginPath();
-                                    ctx.strokeStyle = color;
-                                    ctx.lineWidth = 2;
-                                    ctx.setLineDash([5, 5]);
-                                    ctx.moveTo(xAxis.left, y);
-                                    ctx.lineTo(xAxis.right, y);
-                                    ctx.stroke();
-                                    
-                                    ctx.fillStyle = color;
-                                    ctx.font = "bold 11px -apple-system";
-                                    ctx.fillText(text, xAxis.left + 5, y - 6);
-                                    ctx.restore();
-                                }
-                            };
+                        const ctx = chart.ctx;
+                        const yAxis = chart.scales.y;
+                        const xAxis = chart.scales.x;
 
+                        const drawLine = (value, color, text) => {
+                            const y = yAxis.getPixelForValue(value);
+                            if (y <= yAxis.bottom && y >= yAxis.top) {
+                                ctx.save();
+                                ctx.beginPath();
+                                ctx.strokeStyle = color;
+                                ctx.lineWidth = 2;
+                                ctx.setLineDash([5, 5]);
+                                ctx.moveTo(xAxis.left, y);
+                                ctx.lineTo(xAxis.right, y);
+                                ctx.stroke();
+
+                                ctx.fillStyle = color;
+                                ctx.font = "bold 11px -apple-system";
+                                ctx.fillText(text, xAxis.left + 5, y - 6);
+                                ctx.restore();
+                            }
+                        };
+
+                        if (currentMetric === 'tokens') {
                             if (currentView === 'monthly') {
-                                drawLine(10, '#ff3b30', 'Power (10M)');
-                                drawLine(50, '#af52de', 'Mega (50M)');
-                                drawLine(100, '#5856d6', 'Legendary (100M)');
+                                drawLine(10, '#ffd700', 'Gold (10M)');
+                                drawLine(100, '#00bcd4', 'Diamond (100M)');
+                                drawLine(300, '#e74c3c', 'Master (300M)');
+                                drawLine(500, '#ff9800', 'Grandmaster (500M)');
+                                drawLine(1000, '#9b59b6', 'Challenger (1B)');
                             } else {
                                 // Daily Benchmarks
-                                
-                                // 1. Tier Thresholds (Lighter, background context)
-                                // Legendary (100M/mo -> ~3.3M/day)
-                                drawLine(3.3, 'rgba(88, 86, 214, 0.4)', 'Legendary (3.3M)');
-                                // Mega (50M/mo -> ~1.6M/day)
-                                drawLine(1.6, 'rgba(175, 82, 222, 0.4)', 'Mega (1.6M)');
-                                // Power (10M/mo -> ~0.33M/day)
-                                drawLine(0.33, 'rgba(255, 59, 48, 0.4)', 'Power (0.33M)');
+                                // Challenger (1B/mo -> ~33M/day)
+                                drawLine(33, 'rgba(155, 89, 182, 0.5)', 'Challenger (33M)');
+                                // Master (300M/mo -> ~10M/day)
+                                drawLine(10, 'rgba(231, 76, 60, 0.5)', 'Master (10M)');
+                                // Diamond (100M/mo -> ~3.3M/day)
+                                drawLine(3.3, 'rgba(0, 188, 212, 0.5)', 'Diamond (3.3M)');
+                                // Gold (10M/mo -> ~0.33M/day)
+                                drawLine(0.33, 'rgba(255, 215, 0, 0.5)', 'Gold (0.33M)');
 
-                                // 2. User Average (Stronger, personal metric)
+                                // User Average
                                 const sum = datasetData.reduce((a, b) => a + b, 0);
                                 const avg = sum / datasetData.length;
                                 drawLine(avg, '#0071e3', `My Avg (${avg.toFixed(1)}M)`);
+                            }
+                        } else if (currentMetric === 'cost') {
+                            // Subscription plan benchmarks
+                            if (currentView === 'monthly') {
+                                drawLine(20, '#34c759', '$20 (Free tier value)');
+                                drawLine(100, '#ff9500', '$100 Pro');
+                                drawLine(200, '#ff3b30', '$200 Max');
+                            } else {
+                                // Daily cost benchmarks
+                                drawLine(0.67, 'rgba(52, 199, 89, 0.5)', '$20/mo (~$0.67/day)');
+                                drawLine(3.3, 'rgba(255, 149, 0, 0.5)', '$100 Pro (~$3.3/day)');
+                                drawLine(6.7, 'rgba(255, 59, 48, 0.5)', '$200 Max (~$6.7/day)');
                             }
                         }
                     }
@@ -753,18 +772,28 @@
             }
             
             const getLevelName = (val) => {
-                if (val >= 100) return "Legendary (Opus 4.5 Class)";
-                if (val >= 50) return "Mega (Sonnet 4.5 Class)";
-                if (val >= 10) return "Power (Haiku 4.5 Class)";
-                if (val >= 1) return "Pro (Daily User)";
-                return "Starter";
+                if (val >= 1000) return "Challenger";
+                if (val >= 500) return "Grandmaster";
+                if (val >= 300) return "Master";
+                if (val >= 100) return "Diamond";
+                if (val >= 50) return "Emerald";
+                if (val >= 30) return "Platinum";
+                if (val >= 10) return "Gold";
+                if (val >= 5) return "Silver";
+                if (val >= 1) return "Bronze";
+                return "Iron";
             };
-            
+
             const level = getLevelName(projected);
-            const levelId = projected >= 100 ? 'legendary' :
-                          projected >= 50 ? 'mega' :
-                          projected >= 10 ? 'power' :
-                          projected >= 1 ? 'pro' : 'starter';
+            const levelId = projected >= 1000 ? 'challenger' :
+                          projected >= 500 ? 'grandmaster' :
+                          projected >= 300 ? 'master' :
+                          projected >= 100 ? 'diamond' :
+                          projected >= 50 ? 'emerald' :
+                          projected >= 30 ? 'platinum' :
+                          projected >= 10 ? 'gold' :
+                          projected >= 5 ? 'silver' :
+                          projected >= 1 ? 'bronze' : 'iron';
             
             const shareUrl = `https://sowonlabs.github.io/ccusage-ui/share/${levelId}.html`;
 
