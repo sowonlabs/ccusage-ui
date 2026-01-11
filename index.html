@@ -800,16 +800,13 @@
             
             const shareUrl = `https://sowonlabs.github.io/ccusage-ui/share/${levelId}.html`;
 
-            const text = `I'm a ${level} AI user.
+            const text = `I'm a ${level} tier Claude Code user.
 My monthly usage pace is ${projected.toFixed(1)}M tokens.
 
 Check yours:
 npx ccusage-ui
 
-Do you use Claude Code like an employee?
-Manage your team with @CrewX
-
-#ClaudeCode #CrewX #SowonLabs ${shareUrl}`;
+#ClaudeCode #ccusage ${shareUrl}`;
             
             const url = `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}`;
             window.open(url, '_blank');
