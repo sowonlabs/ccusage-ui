@@ -10,7 +10,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "deploy": "gh-pages -d public"
   },
-  "keywords": [],
+  "keywords": ["ccusage", "ccusage-ui", "claude", "claude-code", "usage", "statistics", "web-ui"],
   "author": "Doha Park",
   "license": "MIT",
   "description": "Web UI for Claude Code usage statistics",
@@ -26,6 +26,7 @@
     "ccusage": "^18.0.0"
   },
   "devDependencies": {
-    "gh-pages": "^6.3.0"
+    "gh-pages": "^6.3.0",
+    "puppeteer": "^24.34.0"
   }
 }
