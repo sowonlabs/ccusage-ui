@@ -1,6 +1,6 @@
 {
   "name": "ccusage-ui",
-  "version": "0.1.7",
+  "version": "0.1.8",
   "main": "server.js",
   "bin": {
     "ccusage-ui": "server.js"
@@ -10,7 +10,15 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "deploy": "gh-pages -d public"
   },
-  "keywords": ["ccusage", "ccusage-ui", "claude", "claude-code", "usage", "statistics", "web-ui"],
+  "keywords": [
+    "ccusage",
+    "ccusage-ui",
+    "claude",
+    "claude-code",
+    "usage",
+    "statistics",
+    "web-ui"
+  ],
   "author": "Doha Park",
   "license": "MIT",
   "description": "Web UI for Claude Code usage statistics",
