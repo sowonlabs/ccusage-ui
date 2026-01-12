@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=1200, height=630">
-    <title>Iron Card</title>
+    <title>IRON Card</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
@@ -39,8 +39,17 @@
             background: radial-gradient(circle, rgba(100, 100, 100, 0.15) 0%, transparent 70%);
             pointer-events: none;
         }
+        .big-icon {
+            position: absolute;
+            right: 60px;
+            top: 45%;
+            transform: translateY(-50%);
+            width: 280px;
+            height: 280px;
+            filter: drop-shadow(0 0 20px rgba(100, 100, 100, 0.8)) drop-shadow(0 0 40px rgba(100, 100, 100, 0.5)) drop-shadow(0 0 60px rgba(100, 100, 100, 0.3));
+            opacity: 0.95;
+        }
         .header { display: flex; align-items: center; gap: 24px; }
-        .tier-icon { font-size: 80px; filter: drop-shadow(0 0 30px rgba(100, 100, 100, 0.8)); }
         .tier-info h1 {
             font-size: 64px;
             font-weight: 800;
@@ -62,9 +71,23 @@
     </style>
 </head>
 <body>
+    <!-- SVG filter to remove magenta fringing -->
+    <svg style="position: absolute; width: 0; height: 0;">
+        <defs>
+            <filter id="remove-magenta" color-interpolation-filters="sRGB">
+                <!-- Convert to separate channels and reduce magenta -->
+                <feColorMatrix type="matrix" values="
+                    1 0 0 0 0
+                    0 1 0 0 0
+                    0 0 1 0 0
+                    -0.5 1 -0.5 1 0
+                "/>
+            </filter>
+        </defs>
+    </svg>
     <div class="card">
+        <img class="big-icon" src="./icons/iron.png" alt="">
         <div class="header">
-            <span class="tier-icon">⬛</span>
             <div class="tier-info">
                 <h1>IRON</h1>
                 <div class="subtitle">New AI User</div>
@@ -72,7 +95,7 @@
         </div>
         <div class="stats">
             <div class="stat">
-                <div class="stat-value">&lt;5M</div>
+                <div class="stat-value"><5M</div>
                 <div class="stat-label">Tokens / Month</div>
             </div>
             <div class="stat">
