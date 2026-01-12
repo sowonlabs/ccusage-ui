@@ -327,6 +327,9 @@
                     <tbody></tbody>
                 </table>
             </div>
+            <button id="showMoreBtn" onclick="toggleTableRows()" style="margin-top: 16px; padding: 8px 16px; background: #f5f5f7; border: 1px solid #e5e5e7; border-radius: 8px; cursor: pointer; font-size: 13px; color: #0071e3; width: 100%;">
+                Show More (30 days)
+            </button>
         </div>
 
         <footer style="text-align: center; margin-top: 40px; padding: 30px 20px; color: var(--text-secondary); font-size: 13px; border-top: 1px solid #e5e5e7;">
@@ -732,12 +735,15 @@
             });
         }
 
+        let showAllDays = false;
+
         function renderTable() {
             const tbody = document.querySelector('#dataTable tbody');
             tbody.innerHTML = '';
-            // Sort by date descending (newest first) and take top 10
-            const recent = [...dailyData].sort((a, b) => b.date.localeCompare(a.date)).slice(0, 10);
-            
+            // Sort by date descending (newest first), show 7 or 30 days
+            const count = showAllDays ? 30 : 7;
+            const recent = [...dailyData].sort((a, b) => b.date.localeCompare(a.date)).slice(0, count);
+
             recent.forEach(d => {
                 const tr = document.createElement('tr');
                 tr.innerHTML = `
@@ -749,6 +755,17 @@
                 `;
                 tbody.appendChild(tr);
             });
+
+            // Update button text
+            const btn = document.getElementById('showMoreBtn');
+            if (btn) {
+                btn.textContent = showAllDays ? 'Show Less (7 days)' : 'Show More (30 days)';
+            }
+        }
+
+        function toggleTableRows() {
+            showAllDays = !showAllDays;
+            renderTable();
         }
 
         
