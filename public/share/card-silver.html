@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=1200, height=630">
-    <title>Silver Card</title>
+    <title>SILVER Card</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
@@ -39,8 +39,17 @@
             background: radial-gradient(circle, rgba(192, 192, 192, 0.15) 0%, transparent 70%);
             pointer-events: none;
         }
+        .big-icon {
+            position: absolute;
+            right: 60px;
+            top: 45%;
+            transform: translateY(-50%);
+            width: 280px;
+            height: 280px;
+            filter: drop-shadow(0 0 20px rgba(192, 192, 192, 0.8)) drop-shadow(0 0 40px rgba(192, 192, 192, 0.5)) drop-shadow(0 0 60px rgba(192, 192, 192, 0.3));
+            opacity: 0.95;
+        }
         .header { display: flex; align-items: center; gap: 24px; }
-        .tier-icon { width: 80px; height: 80px; filter: drop-shadow(0 0 30px rgba(192, 192, 192, 0.8)); }
         .tier-info h1 {
             font-size: 64px;
             font-weight: 800;
@@ -62,9 +71,23 @@
     </style>
 </head>
 <body>
+    <!-- SVG filter to remove magenta fringing -->
+    <svg style="position: absolute; width: 0; height: 0;">
+        <defs>
+            <filter id="remove-magenta" color-interpolation-filters="sRGB">
+                <!-- Convert to separate channels and reduce magenta -->
+                <feColorMatrix type="matrix" values="
+                    1 0 0 0 0
+                    0 1 0 0 0
+                    0 0 1 0 0
+                    -0.5 1 -0.5 1 0
+                "/>
+            </filter>
+        </defs>
+    </svg>
     <div class="card">
+        <img class="big-icon" src="./icons/silver.png" alt="">
         <div class="header">
-            <img class="tier-icon" src="./icons/silver.png" alt="Silver">
             <div class="tier-info">
                 <h1>SILVER</h1>
                 <div class="subtitle">Growing AI User</div>

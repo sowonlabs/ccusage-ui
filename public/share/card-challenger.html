@@ -3,10 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=1200, height=630">
-    <title>Challenger Card</title>
+    <title>CHALLENGER Card</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
-
         body {
             width: 1200px;
             height: 630px;
@@ -17,7 +16,6 @@
             justify-content: center;
             overflow: hidden;
         }
-
         .card {
             width: 1100px;
             height: 530px;
@@ -31,7 +29,6 @@
             position: relative;
             overflow: hidden;
         }
-
         .card::before {
             content: '';
             position: absolute;
@@ -42,19 +39,17 @@
             background: radial-gradient(circle, rgba(155, 89, 182, 0.15) 0%, transparent 70%);
             pointer-events: none;
         }
-
-        .header {
-            display: flex;
-            align-items: center;
-            gap: 24px;
+        .big-icon {
+            position: absolute;
+            right: 60px;
+            top: 45%;
+            transform: translateY(-50%);
+            width: 280px;
+            height: 280px;
+            filter: drop-shadow(0 0 20px rgba(255, 215, 0, 0.8)) drop-shadow(0 0 40px rgba(255, 215, 0, 0.5)) drop-shadow(0 0 60px rgba(255, 215, 0, 0.3));
+            opacity: 0.95;
         }
-
-        .tier-icon {
-            width: 80px;
-            height: 80px;
-            filter: drop-shadow(0 0 30px rgba(155, 89, 182, 0.8));
-        }
-
+        .header { display: flex; align-items: center; gap: 24px; }
         .tier-info h1 {
             font-size: 64px;
             font-weight: 800;
@@ -64,77 +59,40 @@
             background-clip: text;
             letter-spacing: -2px;
         }
-
-        .tier-info .subtitle {
-            font-size: 28px;
-            color: rgba(255, 255, 255, 0.6);
-            margin-top: 8px;
-            font-weight: 500;
-        }
-
-        .stats {
-            display: flex;
-            gap: 60px;
-        }
-
-        .stat {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-        }
-
-        .stat-value {
-            font-size: 56px;
-            font-weight: 700;
-            color: #fff;
-            letter-spacing: -1px;
-        }
-
-        .stat-label {
-            font-size: 20px;
-            color: rgba(255, 255, 255, 0.5);
-            text-transform: uppercase;
-            letter-spacing: 2px;
-        }
-
-        .footer {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-end;
-        }
-
-        .command {
-            background: rgba(255, 255, 255, 0.1);
-            padding: 16px 32px;
-            border-radius: 12px;
-            font-family: 'SF Mono', Monaco, monospace;
-            font-size: 24px;
-            color: #34c759;
-            border: 1px solid rgba(52, 199, 89, 0.3);
-        }
-
-        .branding {
-            text-align: right;
-            color: rgba(255, 255, 255, 0.4);
-            font-size: 20px;
-        }
-
-        .branding strong {
-            color: rgba(255, 255, 255, 0.7);
-            font-size: 24px;
-        }
+        .tier-info .subtitle { font-size: 28px; color: rgba(255, 255, 255, 0.6); margin-top: 8px; font-weight: 500; }
+        .stats { display: flex; gap: 60px; }
+        .stat { display: flex; flex-direction: column; gap: 8px; }
+        .stat-value { font-size: 56px; font-weight: 700; color: #fff; letter-spacing: -1px; }
+        .stat-label { font-size: 20px; color: rgba(255, 255, 255, 0.5); text-transform: uppercase; letter-spacing: 2px; }
+        .footer { display: flex; justify-content: space-between; align-items: flex-end; }
+        .command { background: rgba(255, 255, 255, 0.1); padding: 16px 32px; border-radius: 12px; font-family: 'SF Mono', Monaco, monospace; font-size: 24px; color: #34c759; border: 1px solid rgba(52, 199, 89, 0.3); }
+        .branding { text-align: right; color: rgba(255, 255, 255, 0.4); font-size: 20px; }
+        .branding strong { color: rgba(255, 255, 255, 0.7); font-size: 24px; }
     </style>
 </head>
 <body>
+    <!-- SVG filter to remove magenta fringing -->
+    <svg style="position: absolute; width: 0; height: 0;">
+        <defs>
+            <filter id="remove-magenta" color-interpolation-filters="sRGB">
+                <!-- Convert to separate channels and reduce magenta -->
+                <feColorMatrix type="matrix" values="
+                    1 0 0 0 0
+                    0 1 0 0 0
+                    0 0 1 0 0
+                    -0.5 1 -0.5 1 0
+                "/>
+            </filter>
+        </defs>
+    </svg>
     <div class="card">
+        <img class="big-icon" src="./icons/challenger.png" alt="">
         <div class="header">
-            <img class="tier-icon" src="./icons/challenger.png" alt="Challenger">
             <div class="tier-info">
                 <h1>CHALLENGER</h1>
                 <div class="subtitle">World #1 Level AI User</div>
             </div>
         </div>
-
         <div class="stats">
             <div class="stat">
                 <div class="stat-value">1.5B+</div>
@@ -145,13 +103,9 @@
                 <div class="stat-label">Global Ranking</div>
             </div>
         </div>
-
         <div class="footer">
             <div class="command">npx ccusage-ui</div>
-            <div class="branding">
-                <strong>Claude Code Usage</strong><br>
-                sowonlabs.com
-            </div>
+            <div class="branding"><strong>Claude Code Usage</strong><br>sowonlabs.com</div>
         </div>
     </div>
 </body>

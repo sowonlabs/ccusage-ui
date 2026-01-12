@@ -2,21 +2,89 @@ const sharp = require('sharp');
 const path = require('path');
 const fs = require('fs');
 
+// Grid layout: 5x2
+// Row 1: Challenger, Grandmaster, Master, Diamond, Emerald
+// Row 2: Platinum, Gold, Silver, Bronze, Iron
 const TIERS = [
-    { name: 'challenger', row: 0, col: 0 },
-    { name: 'grandmaster', row: 0, col: 1 },
-    { name: 'master', row: 0, col: 2 },
-    { name: 'diamond', row: 0, col: 3 },
-    { name: 'emerald', row: 0, col: 4 },
-    { name: 'platinum', row: 1, col: 0 },
-    { name: 'gold', row: 1, col: 1 },
-    { name: 'silver', row: 1, col: 2 },
-    { name: 'bronze', row: 1, col: 3 },
-    { name: 'iron', row: 1, col: 4 },
+    { name: 'challenger', row: 0, col: 0, chromaKey: 'green' },
+    { name: 'grandmaster', row: 0, col: 1, chromaKey: 'green' },
+    { name: 'master', row: 0, col: 2, chromaKey: 'green' },
+    { name: 'diamond', row: 0, col: 3, chromaKey: 'magenta' },
+    { name: 'emerald', row: 0, col: 4, chromaKey: 'magenta' },
+    { name: 'platinum', row: 1, col: 0, chromaKey: 'magenta' },
+    { name: 'gold', row: 1, col: 1, chromaKey: 'green' },
+    { name: 'silver', row: 1, col: 2, chromaKey: 'green' },
+    { name: 'bronze', row: 1, col: 3, chromaKey: 'green' },
+    { name: 'iron', row: 1, col: 4, chromaKey: 'green' },
 ];
 
+// Chroma key detection functions
+function isGreen(r, g, b) {
+    // Convert RGB to HSL
+    const rNorm = r / 255;
+    const gNorm = g / 255;
+    const bNorm = b / 255;
+    const max = Math.max(rNorm, gNorm, bNorm);
+    const min = Math.min(rNorm, gNorm, bNorm);
+    const l = (max + min) / 2;
+
+    let h = 0, s = 0;
+    if (max !== min) {
+        const d = max - min;
+        s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+        if (max === rNorm) {
+            h = ((gNorm - bNorm) / d + (gNorm < bNorm ? 6 : 0)) / 6;
+        } else if (max === gNorm) {
+            h = ((bNorm - rNorm) / d + 2) / 6;
+        } else {
+            h = ((rNorm - gNorm) / d + 4) / 6;
+        }
+    }
+
+    const hDeg = h * 360;
+
+    // Green hue ~120°, high saturation
+    const isHslGreen = (hDeg > 80 && hDeg < 160) && s > 0.4 && l > 0.2 && l < 0.8;
+    // RGB-based green detection
+    const isRgbGreen = g > 150 && r < 150 && b < 150;
+
+    return isHslGreen || isRgbGreen;
+}
+
+function isMagenta(r, g, b) {
+    // Convert RGB to HSL
+    const rNorm = r / 255;
+    const gNorm = g / 255;
+    const bNorm = b / 255;
+    const max = Math.max(rNorm, gNorm, bNorm);
+    const min = Math.min(rNorm, gNorm, bNorm);
+    const l = (max + min) / 2;
+
+    let h = 0, s = 0;
+    if (max !== min) {
+        const d = max - min;
+        s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+        if (max === rNorm) {
+            h = ((gNorm - bNorm) / d + (gNorm < bNorm ? 6 : 0)) / 6;
+        } else if (max === gNorm) {
+            h = ((bNorm - rNorm) / d + 2) / 6;
+        } else {
+            h = ((rNorm - gNorm) / d + 4) / 6;
+        }
+    }
+
+    const hDeg = h * 360;
+
+    // Magenta hue ~300°, high saturation
+    const isHslMagenta = (hDeg > 280 && hDeg < 320) && s > 0.5 && l > 0.3 && l < 0.7;
+    // RGB-based magenta detection
+    const isRgbMagenta = r > 180 && g < 100 && b > 180;
+
+    return isHslMagenta || isRgbMagenta;
+}
+
 async function extractIcons() {
-    const inputPath = path.join(__dirname, '../public/share/images/Gemini_Generated_Image_nbha29nbha29nbha.jpeg');
+    const inputPath = path.join(__dirname, '../public/share/images/Gemini_Generated_Image_fj59jyfj59jyfj59.jpeg');
     const iconsDir = path.join(__dirname, '../public/share/icons');
 
     if (!fs.existsSync(iconsDir)) {
@@ -52,17 +120,16 @@ async function extractIcons() {
             }
         }
 
-        // Chroma key: pure magenta #FF00FF (255, 0, 255) with tolerance
+        // Chroma key removal based on tier's background color
+        const chromaKeyFn = tier.chromaKey === 'magenta' ? isMagenta : isGreen;
+        console.log(`Processing ${tier.name} with ${tier.chromaKey} chroma key...`);
+
         for (let i = 0; i < data.length; i += 4) {
             const r = data[i];
             const g = data[i + 1];
             const b = data[i + 2];
 
-            // Pure magenta detection: R and B close to 255, G close to 0
-            // Tolerance of ~30 for JPEG compression artifacts
-            const isMagenta = r > 220 && g < 40 && b > 220;
-
-            if (isMagenta) {
+            if (chromaKeyFn(r, g, b)) {
                 data[i + 3] = 0;
             }
         }
@@ -70,16 +137,15 @@ async function extractIcons() {
         // Erosion: make pixels transparent if they're near transparent pixels
         const width = info.width;
         const height = info.height;
-        const EROSION_PASSES = 3; // Number of erosion iterations
+        const EROSION_PASSES = 3;
 
         for (let pass = 0; pass < EROSION_PASSES; pass++) {
-            const alphaBuffer = Buffer.from(data); // Copy for reference each pass
+            const alphaBuffer = Buffer.from(data);
 
             for (let y = 0; y < height; y++) {
                 for (let x = 0; x < width; x++) {
                     const idx = (y * width + x) * 4;
 
-                    // Check if any neighbor is transparent
                     let hasTransparentNeighbor = false;
                     for (let dy = -1; dy <= 1; dy++) {
                         for (let dx = -1; dx <= 1; dx++) {
@@ -97,7 +163,6 @@ async function extractIcons() {
                         if (hasTransparentNeighbor) break;
                     }
 
-                    // Erode: if neighbor is transparent, make this pixel transparent too
                     if (hasTransparentNeighbor) {
                         data[idx + 3] = 0;
                     }
