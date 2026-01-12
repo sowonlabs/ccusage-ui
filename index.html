@@ -703,9 +703,9 @@
             const ctx = document.getElementById('modelChart').getContext('2d');
             if (modelChart) modelChart.destroy();
 
-            // Aggregate costs by model from the last 30 days of daily data
+            // Aggregate costs by model from the most recent 30 days
             const modelCosts = {};
-            dailyData.slice(-30).forEach(day => {
+            [...dailyData].sort((a, b) => b.date.localeCompare(a.date)).slice(0, 30).forEach(day => {
                 if (day.modelBreakdowns) {
                     day.modelBreakdowns.forEach(m => {
                         const name = m.modelName.split('-').slice(0, 2).join(' ');
@@ -735,8 +735,8 @@
         function renderTable() {
             const tbody = document.querySelector('#dataTable tbody');
             tbody.innerHTML = '';
-            // Show last 10 days reversed
-            const recent = [...dailyData].reverse().slice(0, 10);
+            // Sort by date descending (newest first) and take top 10
+            const recent = [...dailyData].sort((a, b) => b.date.localeCompare(a.date)).slice(0, 10);
             
             recent.forEach(d => {
                 const tr = document.createElement('tr');
